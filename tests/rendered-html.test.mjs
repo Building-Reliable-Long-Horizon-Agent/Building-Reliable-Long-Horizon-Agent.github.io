@@ -38,6 +38,7 @@ test("server-renders the complete research article", async () => {
     /<h1>Building Reliable Long-Horizon Agents: A Survey<\/h1>/i,
   );
   assert.doesNotMatch(html, /class="site-header"|aria-label="Primary navigation"/);
+  assert.doesNotMatch(html, /class="site-footer"|Back to top/);
   assert.match(html, /Kai Wu<sup>1,\*<\/sup>/);
   assert.match(html, /Qingwen Liu<sup>1,†<\/sup>/);
   assert.match(html, /aria-label="Author affiliations"/);

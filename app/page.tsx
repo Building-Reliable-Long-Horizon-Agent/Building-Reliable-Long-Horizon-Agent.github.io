@@ -460,17 +460,6 @@ export default function Home() {
           </div>
         </article>
       </main>
-
-      <footer className="site-footer">
-        <p>
-          <strong>Reliable Horizon</strong>
-          <span>Building Reliable Long-Horizon Agents: A Survey</span>
-        </p>
-        <p>
-          <span>Survey manuscript · July 2026</span>
-          <a href="#top">Back to top ↑</a>
-        </p>
-      </footer>
     </>
   );
 }
