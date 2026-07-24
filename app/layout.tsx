@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     "Definitions, metrics, benchmarks, and system design for reliable long-horizon LLM agents.",
   icons: {
     icon: {
-      url: "/favicon.svg",
+      url: "/icons/github.svg",
       type: "image/svg+xml",
     },
   },

@@ -64,7 +64,7 @@ test("server-renders the complete research article", async () => {
   );
   assert.match(
     html,
-    /<link rel="icon" href="\/favicon\.svg" type="image\/svg\+xml"\/>/,
+    /<link rel="icon" href="\/icons\/github\.svg" type="image\/svg\+xml"\/>/,
   );
   assert.match(html, /64-entry benchmark inventory/);
   assert.match(html, /<summary>Table of contents<\/summary>/);
@@ -96,7 +96,7 @@ test("removes starter-only code and packages local article assets", async () => 
     packageJson,
     hosting,
     paper,
-    favicon,
+    githubIcon,
     figure,
     benchmarkTable,
   ] = await Promise.all([
@@ -106,7 +106,7 @@ test("removes starter-only code and packages local article assets", async () => 
       readFile(new URL("../package.json", import.meta.url), "utf8"),
       readFile(new URL("../.openai/hosting.json", import.meta.url), "utf8"),
       access(new URL("../public/paper.pdf", import.meta.url)),
-      access(new URL("../public/favicon.svg", import.meta.url)),
+      access(new URL("../public/icons/github.svg", import.meta.url)),
       access(
         new URL(
           "../public/figures/overleaf/figure-5-evidence-chain.webp",
@@ -144,7 +144,7 @@ test("removes starter-only code and packages local article assets", async () => 
   assert.match(client, /image\.fetchPriority = "low"/);
   assert.doesNotMatch(client, /and others/);
   assert.equal(paper, undefined);
-  assert.equal(favicon, undefined);
+  assert.equal(githubIcon, undefined);
   assert.equal(figure, undefined);
   assert.equal(benchmarkTable, undefined);
 
