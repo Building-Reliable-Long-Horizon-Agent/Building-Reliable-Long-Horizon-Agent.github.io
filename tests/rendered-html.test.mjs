@@ -64,7 +64,15 @@ test("server-renders the complete research article", async () => {
   );
   assert.match(
     html,
-    /<link rel="icon" href="\/icons\/github\.svg" type="image\/svg\+xml"\/>/,
+    /<link rel="icon" href="\/favicon-lh-32\.png" sizes="32x32" type="image\/png"\/>/,
+  );
+  assert.match(
+    html,
+    /<link rel="icon" href="\/favicon-lh-192\.png" sizes="192x192" type="image\/png"\/>/,
+  );
+  assert.match(
+    html,
+    /<link rel="apple-touch-icon" href="\/apple-touch-icon\.png" sizes="180x180" type="image\/png"\/>/,
   );
   assert.match(html, /64-entry benchmark inventory/);
   assert.match(html, /<summary>Table of contents<\/summary>/);
@@ -97,6 +105,8 @@ test("removes starter-only code and packages local article assets", async () => 
     hosting,
     paper,
     githubIcon,
+    favicon,
+    appleTouchIcon,
     figure,
     benchmarkTable,
   ] = await Promise.all([
@@ -107,6 +117,8 @@ test("removes starter-only code and packages local article assets", async () => 
       readFile(new URL("../.openai/hosting.json", import.meta.url), "utf8"),
       access(new URL("../public/paper.pdf", import.meta.url)),
       access(new URL("../public/icons/github.svg", import.meta.url)),
+      access(new URL("../public/favicon-lh-32.png", import.meta.url)),
+      access(new URL("../public/apple-touch-icon.png", import.meta.url)),
       access(
         new URL(
           "../public/figures/overleaf/figure-5-evidence-chain.webp",
@@ -145,6 +157,8 @@ test("removes starter-only code and packages local article assets", async () => 
   assert.doesNotMatch(client, /and others/);
   assert.equal(paper, undefined);
   assert.equal(githubIcon, undefined);
+  assert.equal(favicon, undefined);
+  assert.equal(appleTouchIcon, undefined);
   assert.equal(figure, undefined);
   assert.equal(benchmarkTable, undefined);
 

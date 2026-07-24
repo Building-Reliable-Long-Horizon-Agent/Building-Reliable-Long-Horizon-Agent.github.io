@@ -9,9 +9,22 @@ export const metadata: Metadata = {
   description:
     "Definitions, metrics, benchmarks, and system design for reliable long-horizon LLM agents.",
   icons: {
-    icon: {
-      url: "/icons/github.svg",
-      type: "image/svg+xml",
+    icon: [
+      {
+        url: "/favicon-lh-32.png",
+        type: "image/png",
+        sizes: "32x32",
+      },
+      {
+        url: "/favicon-lh-192.png",
+        type: "image/png",
+        sizes: "192x192",
+      },
+    ],
+    apple: {
+      url: "/apple-touch-icon.png",
+      type: "image/png",
+      sizes: "180x180",
     },
   },
   openGraph: {
