@@ -61,6 +61,13 @@ test("server-renders the complete research article", async () => {
     html,
     /href="\/figures\/overleaf\/figure-6-open-problems\.png"[^>]*><img[^>]*src="\/figures\/overleaf\/figure-6-open-problems\.webp"[^>]*loading="lazy"/,
   );
+  const paperImages =
+    html.match(/<img[^>]*data-paper-asset="true"[^>]*>/g) ?? [];
+  assert.equal(paperImages.length, 9);
+  for (const image of paperImages) {
+    assert.match(image, /\bwidth="\d+"/);
+    assert.match(image, /\bheight="\d+"/);
+  }
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Your site is taking shape/);
 });
 
@@ -108,6 +115,8 @@ test("removes starter-only code and packages local article assets", async () => 
   assert.match(page, /figures\/overleaf\/figure-6-open-problems\.webp/);
   assert.match(page, /fullSrc="\/figures\/overleaf\/figure-6-open-problems\.png"/);
   assert.match(client, /Wang, Shengzhi and Liu, Qingwen/);
+  assert.match(client, /preloadPaperAssets/);
+  assert.match(client, /image\.fetchPriority = "low"/);
   assert.doesNotMatch(client, /and others/);
   assert.equal(paper, undefined);
   assert.equal(favicon, undefined);

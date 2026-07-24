@@ -19,6 +19,8 @@ export function ArticleEnhancements() {
     const outlineLinks = Array.from(
       document.querySelectorAll<HTMLAnchorElement>(".outline a[href^='#']"),
     );
+    let disposed = false;
+    let preloadTimer: number | undefined;
 
     const update = () => {
       const scrollable = root.scrollHeight - window.innerHeight;
@@ -35,12 +37,69 @@ export function ArticleEnhancements() {
       }
     };
 
+    const preloadPaperAssets = () => {
+      const images = Array.from(
+        document.querySelectorAll<HTMLImageElement>(
+          'img[data-paper-asset][loading="lazy"]:not([data-preload-queued])',
+        ),
+      );
+
+      for (const image of images) {
+        image.dataset.preloadQueued = "true";
+      }
+
+      let cursor = 0;
+      const loadNext = () => {
+        if (disposed) return;
+        const image = images[cursor++];
+        if (!image) return;
+        if (image.complete) {
+          queueMicrotask(loadNext);
+          return;
+        }
+
+        let advanced = false;
+        const advance = () => {
+          if (advanced) return;
+          advanced = true;
+          image.removeEventListener("load", advance);
+          image.removeEventListener("error", advance);
+          loadNext();
+        };
+
+        image.addEventListener("load", advance, { once: true });
+        image.addEventListener("error", advance, { once: true });
+        image.fetchPriority = "low";
+        image.loading = "eager";
+        if (image.complete) advance();
+      };
+
+      // Warm two assets at a time after the critical page load. Images remain
+      // low priority, while native lazy loading can still win if the reader
+      // scrolls to a later figure first.
+      loadNext();
+      loadNext();
+    };
+
+    const startPreloading = () => {
+      preloadTimer = window.setTimeout(preloadPaperAssets, 200);
+    };
+
     update();
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
+    if (document.readyState === "complete") {
+      startPreloading();
+    } else {
+      window.addEventListener("load", startPreloading, { once: true });
+    }
+
     return () => {
+      disposed = true;
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
+      window.removeEventListener("load", startPreloading);
+      if (preloadTimer !== undefined) window.clearTimeout(preloadTimer);
     };
   }, []);
 

@@ -170,6 +170,8 @@ export default function Home() {
                 src="/figures/overleaf/figure-1-teaser.webp"
                 fullSrc="/figures/overleaf/figure-1-teaser.png"
                 alt="Conceptual overview of the research landscape for reliable long-horizon agents, spanning benchmark domains, model design, harness design, and open problems."
+                width={2400}
+                height={1350}
                 priority
               >
                 <strong>Figure 1.</strong> Conceptual overview of the research
@@ -194,6 +196,8 @@ export default function Home() {
                   src="/figures/overleaf/figure-3-definition-axes.webp"
                   fullSrc="/figures/overleaf/figure-3-definition-axes.png"
                   alt="Conceptual diagram explaining cross-step coupling, the six task-pressure axes, and reliable horizon."
+                  width={2880}
+                  height={1920}
                 >
                   <strong>Figure 3.</strong> Cross-step coupling distinguishes
                   long-horizon execution from merely long inputs or independent
@@ -240,6 +244,8 @@ export default function Home() {
                   src="/figures/overleaf/figure-5-evidence-chain.webp"
                   fullSrc="/figures/overleaf/figure-5-evidence-chain.png"
                   alt="Intervention-to-evidence chain showing prevent, detect, recover, and prove mechanisms across model, harness, environment, and evaluation."
+                  width={1009}
+                  height={476}
                 >
                   <strong>Figure 5.</strong> Model and harness choices can
                   prevent, detect, or recover from errors, while replayable
@@ -252,6 +258,8 @@ export default function Home() {
                   src="/figures/overleaf/figure-2-survey-map.webp"
                   fullSrc="/figures/overleaf/figure-2-survey-map.png"
                   alt="Survey map linking each section to its long-horizon themes and representative evidence."
+                  width={2016}
+                  height={1628}
                   compact
                 >
                   <strong>Figure 2.</strong> Survey map linking each section to
@@ -274,6 +282,8 @@ export default function Home() {
                 <PaperFigure
                   src="/figures/overleaf/table-1-six-axes.svg"
                   alt="Table 1: Six long-horizon axes, their task pressures, and the corresponding reliability questions."
+                  width={465}
+                  height={201}
                   table
                 >
                   <strong>Table 1.</strong> Six long-horizon axes and their
@@ -297,6 +307,8 @@ export default function Home() {
                 <PaperFigure
                   src="/figures/overleaf/table-2-benchmarks.svg"
                   alt="Table 2: Representative long-horizon agent benchmarks with domain, scale, typed per-task extent, coupling, persistent state, and correctness signal."
+                  width={459}
+                  height={576}
                   table
                 >
                   <strong>Table 2.</strong> Representative long-horizon agent
@@ -326,6 +338,8 @@ export default function Home() {
                   src="/figures/overleaf/figure-4-model-design.webp"
                   fullSrc="/figures/overleaf/figure-4-model-design.png"
                   alt="Taxonomy of model-design mechanisms for reasoning and planning, tool-use learning, and reinforcement learning in long-horizon agents."
+                  width={1676}
+                  height={1043}
                 >
                   <strong>Figure 4.</strong> Model-design mechanisms for reducing
                   local decision error: reasoning and planning supervision,
@@ -363,6 +377,8 @@ export default function Home() {
                 <PaperFigure
                   src="/figures/overleaf/table-3-metric-stack.svg"
                   alt="Table 3: Metric stack for reliable long-horizon agent evaluation, including outcome, repeated attempts, reliability, uncertainty, reliable boundary, progress, trajectory, verification, recovery, safety, and efficiency."
+                  width={465}
+                  height={540}
                   table
                 >
                   <strong>Table 3.</strong> Metric stack for reliable
@@ -393,6 +409,8 @@ export default function Home() {
                   src="/figures/overleaf/figure-6-open-problems.webp"
                   fullSrc="/figures/overleaf/figure-6-open-problems.png"
                   alt="Overview of failure modes and open problems in reliable long-horizon execution."
+                  width={2880}
+                  height={1606}
                 >
                   <strong>Figure 6.</strong> Planning, grounding, and tool
                   failures; memory failure and goal drift; error propagation and
@@ -478,6 +496,8 @@ function PaperFigure({
   src,
   fullSrc,
   alt,
+  width,
+  height,
   children,
   compact = false,
   table = false,
@@ -486,6 +506,8 @@ function PaperFigure({
   src: string;
   fullSrc?: string;
   alt: string;
+  width: number;
+  height: number;
   children: React.ReactNode;
   compact?: boolean;
   table?: boolean;
@@ -506,9 +528,12 @@ function PaperFigure({
         <img
           src={src}
           alt={alt}
+          width={width}
+          height={height}
           loading={priority ? "eager" : "lazy"}
           fetchPriority={priority ? "high" : undefined}
           decoding="async"
+          data-paper-asset
         />
       </a>
       <figcaption>
