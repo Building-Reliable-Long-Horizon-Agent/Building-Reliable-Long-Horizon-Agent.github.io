@@ -55,7 +55,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 84px;
+  scroll-padding-top: 28px;
   background: var(--paper);
 }
 
@@ -122,50 +122,6 @@ img {
   width: var(--reading-progress);
   height: 3px;
   background: var(--signal);
-}
-
-.site-header {
-  position: sticky;
-  z-index: 50;
-  top: 0;
-  display: flex;
-  min-height: 60px;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 clamp(22px, 4vw, 52px);
-  border-bottom: 1px solid color-mix(in srgb, var(--rule) 88%, transparent);
-  background: color-mix(in srgb, var(--paper) 94%, transparent);
-  backdrop-filter: blur(12px);
-}
-
-.brand {
-  color: var(--ink);
-  font: 720 15px/1 var(--sans);
-  letter-spacing: -0.025em;
-  text-decoration: none;
-}
-
-.site-nav {
-  display: flex;
-  align-items: center;
-  gap: clamp(16px, 2.3vw, 30px);
-  font: 520 13px/1 var(--sans);
-}
-
-.site-nav a {
-  color: var(--ink-soft);
-  text-decoration: none;
-}
-
-.site-nav a:hover {
-  color: var(--ink);
-}
-
-.site-nav .nav-paper {
-  padding: 9px 12px;
-  border: 1px solid var(--rule-strong);
-  color: var(--ink);
-  background: var(--surface);
 }
 
 .article-hero {
@@ -646,15 +602,6 @@ figcaption > span {
 @media (max-width: 840px) {
   body {
     font-size: 17px;
-  }
-
-  .site-header {
-    min-height: 56px;
-    padding: 0 20px;
-  }
-
-  .site-nav a:not(.nav-paper) {
-    display: none;
   }
 
   .article-hero {

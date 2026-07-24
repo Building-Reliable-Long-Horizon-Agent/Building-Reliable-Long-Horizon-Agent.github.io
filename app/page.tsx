@@ -49,28 +49,6 @@ export default function Home() {
         Skip to article
       </a>
 
-      <header className="site-header">
-        <a className="brand" href="#top" aria-label="Reliable Horizon home">
-          Reliable Horizon
-        </a>
-        <nav className="site-nav" aria-label="Primary navigation">
-          <a href="#horizon">Overview</a>
-          <a href="#framework">Framework</a>
-          <a href="#benchmarks">Benchmarks</a>
-          <a href="#citation">Citation</a>
-          <a
-            href={projectLinks.github}
-            target="_blank"
-            rel="noreferrer"
-          >
-            GitHub
-          </a>
-          <a className="nav-paper" href="/paper.pdf">
-            PDF <span aria-hidden="true">↗</span>
-          </a>
-        </nav>
-      </header>
-
       <main id="article">
         <article>
           <header className="article-hero" id="top">
