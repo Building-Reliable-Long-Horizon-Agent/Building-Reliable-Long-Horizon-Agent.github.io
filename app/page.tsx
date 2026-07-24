@@ -224,7 +224,7 @@ export default function Home() {
                 </p>
 
                 <PaperFigure
-                  src="/figures/overleaf/table-1-six-axes.png"
+                  src="/figures/overleaf/table-1-six-axes.svg"
                   alt="Table 1: Six long-horizon axes, their task pressures, and the corresponding reliability questions."
                   table
                 >
@@ -247,7 +247,7 @@ export default function Home() {
                 </p>
 
                 <PaperFigure
-                  src="/figures/overleaf/table-2-benchmarks.png"
+                  src="/figures/overleaf/table-2-benchmarks.svg"
                   alt="Table 2: Representative long-horizon agent benchmarks with domain, scale, typed per-task extent, coupling, persistent state, and correctness signal."
                   table
                 >
@@ -312,7 +312,7 @@ export default function Home() {
                 </p>
 
                 <PaperFigure
-                  src="/figures/overleaf/table-3-metric-stack.png"
+                  src="/figures/overleaf/table-3-metric-stack.svg"
                   alt="Table 3: Metric stack for reliable long-horizon agent evaluation, including outcome, repeated attempts, reliability, uncertainty, reliable boundary, progress, trajectory, verification, recovery, safety, and efficiency."
                   table
                 >

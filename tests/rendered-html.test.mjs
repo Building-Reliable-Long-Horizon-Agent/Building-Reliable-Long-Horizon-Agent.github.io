@@ -61,7 +61,7 @@ test("removes starter-only code and packages local article assets", async () => 
       ),
       access(
         new URL(
-          "../public/figures/overleaf/table-2-benchmarks.png",
+          "../public/figures/overleaf/table-2-benchmarks.svg",
           import.meta.url,
         ),
       ),
@@ -74,6 +74,7 @@ test("removes starter-only code and packages local article assets", async () => 
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(page, /codex-preview|_sites-preview|SkeletonPreview/);
   assert.doesNotMatch(page, /step-line|system-stack|evaluation-stack/);
+  assert.doesNotMatch(page, /table-[123][^"]*\.png/);
   assert.match(page, /figures\/overleaf\/figure-6-open-problems\.png/);
   assert.equal(paper, undefined);
   assert.equal(figure, undefined);
