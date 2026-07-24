@@ -64,15 +64,19 @@ test("server-renders the complete research article", async () => {
   );
   assert.match(
     html,
-    /<link rel="icon" href="\/favicon-lh-32\.png" sizes="32x32" type="image\/png"\/>/,
+    /<link rel="icon" href="(?:https:\/\/building-reliable-long-horizon-agent\.github\.io)?\/favicon-long-horizon\.svg" type="image\/svg\+xml"\/>/,
   );
   assert.match(
     html,
-    /<link rel="icon" href="\/favicon-lh-192\.png" sizes="192x192" type="image\/png"\/>/,
+    /<link rel="icon" href="(?:https:\/\/building-reliable-long-horizon-agent\.github\.io)?\/favicon-long-horizon-32\.png" sizes="32x32" type="image\/png"\/>/,
   );
   assert.match(
     html,
-    /<link rel="apple-touch-icon" href="\/apple-touch-icon\.png" sizes="180x180" type="image\/png"\/>/,
+    /<link rel="icon" href="(?:https:\/\/building-reliable-long-horizon-agent\.github\.io)?\/favicon-long-horizon-192\.png" sizes="192x192" type="image\/png"\/>/,
+  );
+  assert.match(
+    html,
+    /<link rel="apple-touch-icon" href="(?:https:\/\/building-reliable-long-horizon-agent\.github\.io)?\/apple-touch-icon-long-horizon\.png" sizes="180x180" type="image\/png"\/>/,
   );
   assert.match(html, /64-entry benchmark inventory/);
   assert.match(html, /<summary>Table of contents<\/summary>/);
@@ -105,6 +109,7 @@ test("removes starter-only code and packages local article assets", async () => 
     hosting,
     paper,
     githubIcon,
+    faviconSvg,
     favicon,
     appleTouchIcon,
     figure,
@@ -117,8 +122,17 @@ test("removes starter-only code and packages local article assets", async () => 
       readFile(new URL("../.openai/hosting.json", import.meta.url), "utf8"),
       access(new URL("../public/paper.pdf", import.meta.url)),
       access(new URL("../public/icons/github.svg", import.meta.url)),
-      access(new URL("../public/favicon-lh-32.png", import.meta.url)),
-      access(new URL("../public/apple-touch-icon.png", import.meta.url)),
+      readFile(
+        new URL("../public/favicon-long-horizon.svg", import.meta.url),
+        "utf8",
+      ),
+      access(new URL("../public/favicon-long-horizon-32.png", import.meta.url)),
+      access(
+        new URL(
+          "../public/apple-touch-icon-long-horizon.png",
+          import.meta.url,
+        ),
+      ),
       access(
         new URL(
           "../public/figures/overleaf/figure-5-evidence-chain.webp",
@@ -157,6 +171,7 @@ test("removes starter-only code and packages local article assets", async () => 
   assert.doesNotMatch(client, /and others/);
   assert.equal(paper, undefined);
   assert.equal(githubIcon, undefined);
+  assert.match(faviconSvg, /<title>Long-Horizon Agents<\/title>/);
   assert.equal(favicon, undefined);
   assert.equal(appleTouchIcon, undefined);
   assert.equal(figure, undefined);

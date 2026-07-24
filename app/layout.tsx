@@ -11,18 +11,22 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/favicon-lh-32.png",
+        url: "/favicon-long-horizon.svg",
+        type: "image/svg+xml",
+      },
+      {
+        url: "/favicon-long-horizon-32.png",
         type: "image/png",
         sizes: "32x32",
       },
       {
-        url: "/favicon-lh-192.png",
+        url: "/favicon-long-horizon-192.png",
         type: "image/png",
         sizes: "192x192",
       },
     ],
     apple: {
-      url: "/apple-touch-icon.png",
+      url: "/apple-touch-icon-long-horizon.png",
       type: "image/png",
       sizes: "180x180",
     },
