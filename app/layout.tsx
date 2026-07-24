@@ -5,10 +5,7 @@ const preferenceBootstrap = `
 (function () {
   var root = document.documentElement;
   try {
-    var language = localStorage.getItem("reliable-horizon-language");
-    if (language !== "en" && language !== "zh") {
-      language = navigator.language && navigator.language.toLowerCase().indexOf("zh") === 0 ? "zh" : "en";
-    }
+    var language = /\\/zh(?:\\/|$)/.test(window.location.pathname) ? "zh" : "en";
     var theme = localStorage.getItem("reliable-horizon-theme");
     if (theme !== "light" && theme !== "dark") {
       theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";

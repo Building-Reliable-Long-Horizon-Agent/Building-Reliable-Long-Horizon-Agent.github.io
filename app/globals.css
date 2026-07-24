@@ -204,14 +204,18 @@ img {
 }
 
 .preference-button {
+  display: inline-flex;
   min-width: 58px;
   min-height: 34px;
+  align-items: center;
+  justify-content: center;
   padding: 0 11px;
   border: 1px solid var(--rule);
   color: var(--ink-soft);
   background: transparent;
   font: 650 12px/1 var(--sans);
   cursor: pointer;
+  text-decoration: none;
   transition:
     border-color 150ms ease,
     color 150ms ease,

@@ -2,13 +2,13 @@ import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
-async function render() {
+async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
-    new Request("http://localhost/", {
+    new Request(`http://localhost${pathname}`, {
       headers: { accept: "text/html" },
     }),
     {
@@ -50,7 +50,10 @@ test("server-renders the complete research article", async () => {
   assert.match(html, /href="\/paper\.pdf"/);
   assert.match(html, /class="button primary" href="\/paper\.pdf">PDF<\/a>/);
   assert.match(html, /class="site-preferences"/);
-  assert.match(html, /aria-label="Switch language \/ 切换语言"/);
+  assert.match(
+    html,
+    /href="\/zh\/"[^>]*hrefLang="zh-CN"[^>]*aria-label="切换为中文"/,
+  );
   assert.match(html, /aria-label="Switch color theme \/ 切换明暗主题"/);
   assert.match(html, /可靠时程是整个系统的属性/);
   assert.match(html, /data-alt-zh="可靠长时程智能体研究版图/);
@@ -115,6 +118,23 @@ test("server-renders the complete research article", async () => {
   );
 });
 
+test("serves Chinese from an explicit route while English remains the default", async () => {
+  const [englishResponse, chineseResponse] = await Promise.all([
+    render("/"),
+    render("/zh"),
+  ]);
+
+  assert.equal(englishResponse.status, 200);
+  assert.equal(chineseResponse.status, 200);
+
+  const englishHtml = await englishResponse.text();
+  const chineseHtml = await chineseResponse.text();
+
+  assert.match(englishHtml, /href="\/zh\/"[^>]*hrefLang="zh-CN"/);
+  assert.match(chineseHtml, /href="\/"[^>]*hrefLang="en"/);
+  assert.match(chineseHtml, /可靠长时程智能体的定义、指标、基准与系统设计。/);
+});
+
 test("removes starter-only code and packages local article assets", async () => {
   const [
     page,
@@ -157,10 +177,12 @@ test("removes starter-only code and packages local article assets", async () => 
 
   assert.match(page, /Building Reliable Long-Horizon Agents/);
   assert.match(layout, /Reliable Horizon/);
-  assert.match(layout, /reliable-horizon-language/);
+  assert.doesNotMatch(layout, /reliable-horizon-language|navigator\.language/);
+  assert.match(layout, /window\.location\.pathname/);
   assert.match(layout, /reliable-horizon-theme/);
   assert.match(layout, /suppressHydrationWarning/);
-  assert.match(client, /localStorage\.setItem\(languageStorageKey, next\)/);
+  assert.doesNotMatch(client, /languageStorageKey/);
+  assert.match(client, /href="\/zh\/"/);
   assert.match(client, /localStorage\.setItem\(themeStorageKey, next\)/);
   assert.match(packageJson, /"name": "reliable-horizon-blog"/);
   assert.match(hosting, /"project_id": "appgprj_/);

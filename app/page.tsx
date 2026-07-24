@@ -5,6 +5,13 @@ export const metadata: Metadata = {
   title: "Building Reliable Long-Horizon Agents: A Survey",
   description:
     "Definitions, metrics, benchmarks, and system design for reliable long-horizon LLM agents.",
+  alternates: {
+    canonical: "/",
+    languages: {
+      en: "/",
+      "zh-CN": "/zh/",
+    },
+  },
 };
 
 const authors = [

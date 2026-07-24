@@ -1,8 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const languageStorageKey = "reliable-horizon-language";
 const themeStorageKey = "reliable-horizon-theme";
 
 const citation = `@misc{wu2026building,
@@ -77,9 +77,6 @@ export function SitePreferences() {
       applyTheme(event.matches ? "dark" : "light");
     };
     const syncPreferences = (event: StorageEvent) => {
-      if (event.key === languageStorageKey && isLanguage(event.newValue ?? undefined)) {
-        applyLanguage(event.newValue as Language);
-      }
       if (event.key === themeStorageKey && isTheme(event.newValue ?? undefined)) {
         applyTheme(event.newValue as Theme);
       }
@@ -92,17 +89,6 @@ export function SitePreferences() {
       window.removeEventListener("storage", syncPreferences);
     };
   }, []);
-
-  function toggleLanguage() {
-    const current = isLanguage(document.documentElement.dataset.lang)
-      ? document.documentElement.dataset.lang
-      : "en";
-    const next: Language = current === "en" ? "zh" : "en";
-    applyLanguage(next);
-    try {
-      window.localStorage.setItem(languageStorageKey, next);
-    } catch {}
-  }
 
   function toggleTheme() {
     const current = isTheme(document.documentElement.dataset.theme)
@@ -120,17 +106,26 @@ export function SitePreferences() {
       className="site-preferences"
       aria-label="Display preferences / 显示设置"
     >
-      <button
-        className="preference-button"
-        type="button"
-        onClick={toggleLanguage}
-        aria-label="Switch language / 切换语言"
-      >
-        <span className="lang-en">中文</span>
-        <span className="lang-zh" lang="en">
+      <span className="lang-en" lang="zh-CN">
+        <Link
+          className="preference-button"
+          href="/zh/"
+          hrefLang="zh-CN"
+          aria-label="切换为中文"
+        >
+          中文
+        </Link>
+      </span>
+      <span className="lang-zh" lang="en">
+        <Link
+          className="preference-button"
+          href="/"
+          hrefLang="en"
+          aria-label="Switch to English"
+        >
           EN
-        </span>
-      </button>
+        </Link>
+      </span>
       <button
         className="preference-button"
         type="button"
