@@ -49,6 +49,14 @@ test("server-renders the complete research article", async () => {
   assert.match(html, /64-entry benchmark inventory/);
   assert.match(html, /<summary>Table of contents<\/summary>/);
   assert.match(html, /id="citation"/);
+  assert.match(
+    html,
+    /src="\/figures\/overleaf\/figure-1-teaser\.webp"[^>]*loading="eager"[^>]*fetchPriority="high"/,
+  );
+  assert.match(
+    html,
+    /href="\/figures\/overleaf\/figure-6-open-problems\.png"[^>]*><img[^>]*src="\/figures\/overleaf\/figure-6-open-problems\.webp"[^>]*loading="lazy"/,
+  );
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Your site is taking shape/);
 });
 
@@ -71,7 +79,7 @@ test("removes starter-only code and packages local article assets", async () => 
       access(new URL("../public/paper.pdf", import.meta.url)),
       access(
         new URL(
-          "../public/figures/overleaf/figure-5-evidence-chain.png",
+          "../public/figures/overleaf/figure-5-evidence-chain.webp",
           import.meta.url,
         ),
       ),
@@ -91,7 +99,8 @@ test("removes starter-only code and packages local article assets", async () => 
   assert.doesNotMatch(page, /codex-preview|_sites-preview|SkeletonPreview/);
   assert.doesNotMatch(page, /step-line|system-stack|evaluation-stack/);
   assert.doesNotMatch(page, /table-[123][^"]*\.png/);
-  assert.match(page, /figures\/overleaf\/figure-6-open-problems\.png/);
+  assert.match(page, /figures\/overleaf\/figure-6-open-problems\.webp/);
+  assert.match(page, /fullSrc="\/figures\/overleaf\/figure-6-open-problems\.png"/);
   assert.match(client, /Wang, Shengzhi and Liu, Qingwen/);
   assert.doesNotMatch(client, /and others/);
   assert.equal(paper, undefined);

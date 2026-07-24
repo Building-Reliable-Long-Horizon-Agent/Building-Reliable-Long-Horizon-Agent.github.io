@@ -167,8 +167,10 @@ export default function Home() {
               </p>
 
               <PaperFigure
-                src="/figures/overleaf/figure-1-teaser.png"
+                src="/figures/overleaf/figure-1-teaser.webp"
+                fullSrc="/figures/overleaf/figure-1-teaser.png"
                 alt="Conceptual overview of the research landscape for reliable long-horizon agents, spanning benchmark domains, model design, harness design, and open problems."
+                priority
               >
                 <strong>Figure 1.</strong> Conceptual overview of the research
                 landscape for reliable long-horizon agents, spanning five
@@ -189,7 +191,8 @@ export default function Home() {
                 </p>
 
                 <PaperFigure
-                  src="/figures/overleaf/figure-3-definition-axes.png"
+                  src="/figures/overleaf/figure-3-definition-axes.webp"
+                  fullSrc="/figures/overleaf/figure-3-definition-axes.png"
                   alt="Conceptual diagram explaining cross-step coupling, the six task-pressure axes, and reliable horizon."
                 >
                   <strong>Figure 3.</strong> Cross-step coupling distinguishes
@@ -234,7 +237,8 @@ export default function Home() {
                 </p>
 
                 <PaperFigure
-                  src="/figures/overleaf/figure-5-evidence-chain.png"
+                  src="/figures/overleaf/figure-5-evidence-chain.webp"
+                  fullSrc="/figures/overleaf/figure-5-evidence-chain.png"
                   alt="Intervention-to-evidence chain showing prevent, detect, recover, and prove mechanisms across model, harness, environment, and evaluation."
                 >
                   <strong>Figure 5.</strong> Model and harness choices can
@@ -245,7 +249,8 @@ export default function Home() {
                 </PaperFigure>
 
                 <PaperFigure
-                  src="/figures/overleaf/figure-2-survey-map.png"
+                  src="/figures/overleaf/figure-2-survey-map.webp"
+                  fullSrc="/figures/overleaf/figure-2-survey-map.png"
                   alt="Survey map linking each section to its long-horizon themes and representative evidence."
                   compact
                 >
@@ -318,7 +323,8 @@ export default function Home() {
                 </p>
 
                 <PaperFigure
-                  src="/figures/overleaf/figure-4-model-design.png"
+                  src="/figures/overleaf/figure-4-model-design.webp"
+                  fullSrc="/figures/overleaf/figure-4-model-design.png"
                   alt="Taxonomy of model-design mechanisms for reasoning and planning, tool-use learning, and reinforcement learning in long-horizon agents."
                 >
                   <strong>Figure 4.</strong> Model-design mechanisms for reducing
@@ -384,7 +390,8 @@ export default function Home() {
                 </p>
 
                 <PaperFigure
-                  src="/figures/overleaf/figure-6-open-problems.png"
+                  src="/figures/overleaf/figure-6-open-problems.webp"
+                  fullSrc="/figures/overleaf/figure-6-open-problems.png"
                   alt="Overview of failure modes and open problems in reliable long-horizon execution."
                 >
                   <strong>Figure 6.</strong> Planning, grounding, and tool
@@ -469,16 +476,20 @@ function SectionHeading({
 
 function PaperFigure({
   src,
+  fullSrc,
   alt,
   children,
   compact = false,
   table = false,
+  priority = false,
 }: {
   src: string;
+  fullSrc?: string;
   alt: string;
   children: React.ReactNode;
   compact?: boolean;
   table?: boolean;
+  priority?: boolean;
 }) {
   const classes = [
     "wide-figure",
@@ -491,8 +502,14 @@ function PaperFigure({
 
   return (
     <figure className={classes}>
-      <a href={src} target="_blank" rel="noreferrer">
-        <img src={src} alt={alt} />
+      <a href={fullSrc ?? src} target="_blank" rel="noreferrer">
+        <img
+          src={src}
+          alt={alt}
+          loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : undefined}
+          decoding="async"
+        />
       </a>
       <figcaption>
         {children}

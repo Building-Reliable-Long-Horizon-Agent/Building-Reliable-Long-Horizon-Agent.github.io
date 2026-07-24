@@ -36,4 +36,6 @@ The site runs locally with vinext. The bundled paper, figures, tables, and fonts
 are served with no third-party runtime requests. Figures are direct exports of
 the source PDFs in the latest Overleaf project; Tables 1–3 are vector crops from
 the latest compiled manuscript. None of the paper visuals are redrawn for the
-web.
+web. The article serves pixel-identical lossless WebP copies of the PNG figures
+and lazy-loads everything after Figure 1; each caption still links to the
+original PNG at full resolution.
