@@ -8,6 +8,12 @@ export const metadata: Metadata = {
   },
   description:
     "Definitions, metrics, benchmarks, and system design for reliable long-horizon LLM agents.",
+  icons: {
+    icon: {
+      url: "/favicon.svg",
+      type: "image/svg+xml",
+    },
+  },
   openGraph: {
     title: "Building Reliable Long-Horizon Agents: A Survey",
     description:
