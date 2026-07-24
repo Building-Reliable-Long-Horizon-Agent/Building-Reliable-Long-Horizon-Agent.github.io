@@ -41,7 +41,7 @@ test("server-renders the complete research article", async () => {
   assert.doesNotMatch(html, /class="site-footer"|Back to top/);
   assert.match(html, /Kai Wu<sup>1,\*<\/sup>/);
   assert.match(html, /Qingwen Liu<sup>1,†<\/sup>/);
-  assert.match(html, /aria-label="Author affiliations"/);
+  assert.match(html, /aria-label="Author affiliations \/ 作者单位"/);
   assert.match(html, /id="horizon"/);
   assert.match(html, /id="framework"/);
   assert.match(html, /id="axes"/);
@@ -49,18 +49,25 @@ test("server-renders the complete research article", async () => {
   assert.match(html, /id="evaluation"/);
   assert.match(html, /href="\/paper\.pdf"/);
   assert.match(html, /class="button primary" href="\/paper\.pdf">PDF<\/a>/);
+  assert.match(html, /class="site-preferences"/);
+  assert.match(html, /aria-label="Switch language \/ 切换语言"/);
+  assert.match(html, /aria-label="Switch color theme \/ 切换明暗主题"/);
+  assert.match(html, /可靠时程是整个系统的属性/);
+  assert.match(html, /data-alt-zh="可靠长时程智能体研究版图/);
   assert.doesNotMatch(html, /Start with the abstract|Read the full paper/);
+  assert.doesNotMatch(html, /Open full resolution/);
+  assert.doesNotMatch(html, /closing-statement|Progress is not an agent/);
   assert.match(
     html,
     /href="https:\/\/github\.com\/Building-Reliable-Long-Horizon-Agent\/Building-Reliable-Long-Horizon-Agent\.github\.io"/,
   );
   assert.match(
     html,
-    /class="button unavailable" aria-disabled="true"><img[^>]+src="\/icons\/arxiv\.svg"[^>]*\/>arXiv<span class="resource-status">soon<\/span>/,
+    /class="button unavailable" aria-disabled="true"><img[^>]+src="\/icons\/arxiv\.svg"[^>]*\/>arXiv<span class="resource-status"><span class="lang-en" lang="en">soon<\/span><span class="lang-zh" lang="zh-CN">即将开放<\/span><\/span>/,
   );
   assert.match(
     html,
-    /class="button unavailable" aria-disabled="true">OpenReview<span class="resource-status">soon<\/span>/,
+    /class="button unavailable" aria-disabled="true">OpenReview<span class="resource-status"><span class="lang-en" lang="en">soon<\/span><span class="lang-zh" lang="zh-CN">即将开放<\/span><\/span>/,
   );
   assert.match(
     html,
@@ -79,7 +86,7 @@ test("server-renders the complete research article", async () => {
     /<link rel="apple-touch-icon" href="(?:https:\/\/building-reliable-long-horizon-agent\.github\.io)?\/apple-touch-icon-long-horizon\.png" sizes="180x180" type="image\/png"\/>/,
   );
   assert.match(html, /64-entry benchmark inventory/);
-  assert.match(html, /<summary>Table of contents<\/summary>/);
+  assert.doesNotMatch(html, /Table of contents|class="article-toc"/);
   assert.match(html, /id="citation"/);
   assert.doesNotMatch(html, /How to cite this survey|Read the complete survey/);
   assert.match(
@@ -92,12 +99,20 @@ test("server-renders the complete research article", async () => {
   );
   const paperImages =
     html.match(/<img[^>]*data-paper-asset="true"[^>]*>/g) ?? [];
-  assert.equal(paperImages.length, 9);
+  assert.equal(paperImages.length, 5);
   for (const image of paperImages) {
     assert.match(image, /\bwidth="\d+"/);
     assert.match(image, /\bheight="\d+"/);
   }
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Your site is taking shape/);
+  assert.doesNotMatch(
+    html,
+    /figure-2-survey-map|class="note"|class="signal-quote"|class="plain-agenda"/,
+  );
+  assert.doesNotMatch(
+    html,
+    /table-1-six-axes|table-2-benchmarks|table-3-metric-stack/,
+  );
 });
 
 test("removes starter-only code and packages local article assets", async () => {
@@ -113,7 +128,6 @@ test("removes starter-only code and packages local article assets", async () => 
     favicon,
     appleTouchIcon,
     figure,
-    benchmarkTable,
   ] = await Promise.all([
       readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
       readFile(new URL("../app/client.tsx", import.meta.url), "utf8"),
@@ -139,16 +153,15 @@ test("removes starter-only code and packages local article assets", async () => 
           import.meta.url,
         ),
       ),
-      access(
-        new URL(
-          "../public/figures/overleaf/table-2-benchmarks.svg",
-          import.meta.url,
-        ),
-      ),
     ]);
 
   assert.match(page, /Building Reliable Long-Horizon Agents/);
   assert.match(layout, /Reliable Horizon/);
+  assert.match(layout, /reliable-horizon-language/);
+  assert.match(layout, /reliable-horizon-theme/);
+  assert.match(layout, /suppressHydrationWarning/);
+  assert.match(client, /localStorage\.setItem\(languageStorageKey, next\)/);
+  assert.match(client, /localStorage\.setItem\(themeStorageKey, next\)/);
   assert.match(packageJson, /"name": "reliable-horizon-blog"/);
   assert.match(hosting, /"project_id": "appgprj_/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
@@ -175,7 +188,6 @@ test("removes starter-only code and packages local article assets", async () => 
   assert.equal(favicon, undefined);
   assert.equal(appleTouchIcon, undefined);
   assert.equal(figure, undefined);
-  assert.equal(benchmarkTable, undefined);
 
   await assert.rejects(
     access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)),

@@ -1,6 +1,34 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+const preferenceBootstrap = `
+(function () {
+  var root = document.documentElement;
+  try {
+    var language = localStorage.getItem("reliable-horizon-language");
+    if (language !== "en" && language !== "zh") {
+      language = navigator.language && navigator.language.toLowerCase().indexOf("zh") === 0 ? "zh" : "en";
+    }
+    var theme = localStorage.getItem("reliable-horizon-theme");
+    if (theme !== "light" && theme !== "dark") {
+      theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    root.dataset.lang = language;
+    root.lang = language === "zh" ? "zh-CN" : "en";
+    root.dataset.theme = theme;
+    root.style.colorScheme = theme;
+    var themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor) {
+      themeColor.setAttribute("content", theme === "dark" ? "#111513" : "#fcfcfa");
+    }
+  } catch (error) {
+    root.dataset.lang = "en";
+    root.dataset.theme = "light";
+    root.style.colorScheme = "light";
+  }
+})();
+`;
+
 export const metadata: Metadata = {
   title: {
     default: "Building Reliable Long-Horizon Agents: A Survey",
@@ -52,7 +80,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta name="theme-color" content="#fcfcfa" />
+        <script dangerouslySetInnerHTML={{ __html: preferenceBootstrap }} />
+      </head>
       <body>{children}</body>
     </html>
   );
