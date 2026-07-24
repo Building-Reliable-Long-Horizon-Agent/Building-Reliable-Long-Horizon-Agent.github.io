@@ -257,6 +257,17 @@ img {
   transform: none;
 }
 
+.resource-icon {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+  margin-right: 7px;
+}
+
+.button.unavailable .resource-icon {
+  opacity: 0.45;
+}
+
 .resource-status {
   margin-left: 8px;
   padding: 3px 5px;
@@ -265,17 +276,6 @@ img {
   font: 650 9px/1 var(--sans);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-}
-
-.text-action {
-  margin-left: 8px;
-  color: var(--ink-soft);
-  font: 620 13px/1.4 var(--sans);
-  text-decoration: none;
-}
-
-.text-action:hover {
-  color: var(--ink);
 }
 
 .article-shell {
@@ -619,10 +619,6 @@ figcaption > span {
     align-items: flex-start;
     flex-direction: column;
     gap: 14px;
-  }
-
-  .text-action {
-    margin-left: 0;
   }
 
   .article-shell {

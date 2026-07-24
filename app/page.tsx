@@ -88,17 +88,22 @@ export default function Home() {
 
             <div className="hero-actions" aria-label="Article actions">
               <a className="button primary" href="/paper.pdf">
-                Read the full paper
+                PDF
               </a>
-              <ResourceLink label="GitHub" href={projectLinks.github} />
-              <ResourceLink label="arXiv" href={projectLinks.arxiv} />
+              <ResourceLink
+                label="GitHub"
+                href={projectLinks.github}
+                icon="github"
+              />
+              <ResourceLink
+                label="arXiv"
+                href={projectLinks.arxiv}
+                icon="arxiv"
+              />
               <ResourceLink
                 label="OpenReview"
                 href={projectLinks.openReview}
               />
-              <a className="text-action" href="#abstract">
-                Start with the abstract <span aria-hidden="true">↓</span>
-              </a>
             </div>
           </header>
 
@@ -478,13 +483,29 @@ function SectionHeading({
 function ResourceLink({
   label,
   href,
+  icon,
 }: {
   label: string;
   href?: string;
+  icon?: "github" | "arxiv";
 }) {
+  const iconElement = icon ? (
+    <img
+      className="resource-icon"
+      src={`/icons/${icon}.svg`}
+      alt=""
+      width={15}
+      height={15}
+      loading="lazy"
+      decoding="async"
+      aria-hidden="true"
+    />
+  ) : null;
+
   if (!href) {
     return (
       <span className="button unavailable" aria-disabled="true">
+        {iconElement}
         {label}
         <span className="resource-status">soon</span>
       </span>
@@ -493,6 +514,7 @@ function ResourceLink({
 
   return (
     <a className="button" href={href} target="_blank" rel="noreferrer">
+      {iconElement}
       {label} <span aria-hidden="true">↗</span>
     </a>
   );
