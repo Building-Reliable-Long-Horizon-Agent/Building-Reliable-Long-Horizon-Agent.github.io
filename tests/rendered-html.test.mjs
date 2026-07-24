@@ -44,9 +44,17 @@ test("server-renders the complete research article", async () => {
   assert.match(html, /aria-label="Author affiliations \/ 作者单位"/);
   assert.match(html, /id="horizon"/);
   assert.match(html, /id="framework"/);
-  assert.match(html, /id="axes"/);
-  assert.match(html, /id="benchmarks"/);
   assert.match(html, /id="evaluation"/);
+  assert.match(html, /id="agenda"/);
+  assert.doesNotMatch(html, /id="axes"|id="benchmarks"|id="design"/);
+  assert.match(html, /What makes a task long-horizon\?/);
+  assert.match(html, /Reliability belongs to the whole system\./);
+  assert.match(html, /How should we evaluate progress\?/);
+  assert.match(html, /What remains unsolved\?/);
+  assert.equal(
+    (html.match(/class="section-heading"/g) ?? []).length,
+    4,
+  );
   assert.match(html, /href="\/paper\.pdf"/);
   assert.match(html, /class="button primary" href="\/paper\.pdf">PDF<\/a>/);
   assert.match(html, /class="site-preferences"/);
@@ -55,7 +63,7 @@ test("server-renders the complete research article", async () => {
     /href="\/zh\/"[^>]*hrefLang="zh-CN"[^>]*aria-label="切换为中文"/,
   );
   assert.match(html, /aria-label="Switch color theme \/ 切换明暗主题"/);
-  assert.match(html, /可靠时程是整个系统的属性/);
+  assert.match(html, /可靠性属于整个系统/);
   assert.match(html, /data-alt-zh="可靠长时程智能体研究版图/);
   assert.doesNotMatch(html, /Start with the abstract|Read the full paper/);
   assert.doesNotMatch(html, /Open full resolution/);

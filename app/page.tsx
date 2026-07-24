@@ -186,8 +186,8 @@ export default function Home() {
               <section id="horizon" className="article-section">
                 <SectionHeading index="01">
                   <LocalizedText
-                    en="Length is a weak proxy. Dependency is the test."
-                    zh="长度只是一个弱代理指标，依赖关系才是真正的判据。"
+                    en="What makes a task long-horizon?"
+                    zh="什么使一个任务成为长时程任务？"
                   />
                 </SectionHeading>
                 <p>
@@ -239,13 +239,20 @@ export default function Home() {
                     zh="这一定义会纳入一些看似很短的任务：只要早期的数据库更新、浏览器操作或代码修改改变了后续的可行空间。相反，长文档和重复调用若从未形成有意义的跨步骤依赖，则不在此列。"
                   />
                 </p>
+
+                <p>
+                  <LocalizedText
+                    en="Once cross-step coupling is present, six task-pressure axes describe how the horizon becomes difficult: human-effort time, interaction length, context and memory demand, environment grounding, planning dependency, and verification observability. A benchmark may stress one axis or several at once."
+                    zh="确认存在跨步骤耦合后，六个任务压力维度可以进一步描述长时程难度来自哪里：人工投入时间、交互长度、上下文与记忆需求、环境事实对齐、规划依赖以及验证可观测性。一项基准可能只对一个维度施压，也可能同时覆盖多个维度。"
+                  />
+                </p>
               </section>
 
               <section id="framework" className="article-section">
                 <SectionHeading index="02">
                   <LocalizedText
-                    en="The reliable horizon belongs to the whole system."
-                    zh="可靠时程是整个系统的属性。"
+                    en="Reliability belongs to the whole system."
+                    zh="可靠性属于整个系统。"
                   />
                 </SectionHeading>
                 <p>
@@ -262,72 +269,6 @@ export default function Home() {
                   />
                 </p>
 
-                <PaperFigure
-                  src="/figures/overleaf/figure-5-evidence-chain.webp"
-                  fullSrc="/figures/overleaf/figure-5-evidence-chain.png"
-                  alt="Intervention-to-evidence chain showing prevent, detect, recover, and prove mechanisms across model, harness, environment, and evaluation."
-                  altZh="展示模型、运行框架、环境与评估中预防、检测、恢复和证明机制的干预证据链。"
-                  width={1009}
-                  height={476}
-                >
-                  <LocalizedText
-                    en={
-                      <>
-                        <strong>Figure 5.</strong> Model and harness choices can
-                        prevent, detect, or recover from errors, while replayable
-                        environments and matched evaluation protocols make those
-                        effects attributable. A credible extension claim
-                        requires repeated, stratified, matched evaluation with
-                        uncertainty.
-                      </>
-                    }
-                    zh={
-                      <>
-                        <strong>图 5.</strong>{" "}
-                        模型与运行框架的设计可以预防、检测错误或从错误中恢复；可重放环境与匹配的评估协议则使这些效果可以归因。要可信地宣称时程边界得到扩展，需要进行重复、分层、匹配且报告不确定性的评估。
-                      </>
-                    }
-                  />
-                </PaperFigure>
-              </section>
-
-              <section id="axes" className="article-section">
-                <SectionHeading index="03">
-                  <LocalizedText
-                    en="Horizon is a coordinate system, not one number."
-                    zh="时程是一个坐标系，而不是单一数字。"
-                  />
-                </SectionHeading>
-                <p>
-                  <LocalizedText
-                    en="Cross-step coupling tells us whether an execution is long-horizon. Six task-pressure axes tell us how: human-effort time, interaction length, context and memory demand, environment grounding, planning dependency, and verification observability. A benchmark may stress one axis or several at once."
-                    zh="跨步骤耦合告诉我们一次执行是否属于长时程；六个任务压力维度则说明其长时程性体现在哪里：人工投入时间、交互长度、上下文与记忆需求、环境事实对齐、规划依赖以及验证可观测性。一项基准可能只对一个维度施压，也可能同时覆盖多个维度。"
-                  />
-                </p>
-              </section>
-
-              <section id="benchmarks" className="article-section">
-                <SectionHeading index="04">
-                  <LocalizedText
-                    en="Benchmarks measure different kinds of distance."
-                    zh="不同基准衡量的是不同类型的距离。"
-                  />
-                </SectionHeading>
-                <p>
-                  <LocalizedText
-                    en="Long-horizon evaluation spans web navigation, computer use, software engineering, tools and workplace apps, planning, and scientific work. Their scores should not be collapsed into a single leaderboard because their stress paths and proof surfaces differ. The paper appendix contains the complete 64-entry benchmark inventory."
-                    zh="长时程评估涵盖网页导航、计算机操作、软件工程、工具与办公应用、规划以及科学研究。由于各类评估的压力路径和验证证据不同，不应将其分数压缩为单一排行榜。论文附录提供了完整的 64 项基准清单。"
-                  />
-                </p>
-              </section>
-
-              <section id="design" className="article-section">
-                <SectionHeading index="05">
-                  <LocalizedText
-                    en="Models reduce local error. Harnesses stop it from becoming history."
-                    zh="模型降低局部错误，运行框架阻止错误沉淀为历史。"
-                  />
-                </SectionHeading>
                 <p>
                   <LocalizedText
                     en="Model design and harness design are complementary routes to a longer reliable horizon. One improves the quality of each transition. The other controls what survives from one transition to the next."
@@ -368,15 +309,49 @@ export default function Home() {
                     zh="随后，运行框架通过反馈、上下文选择、持久状态、验证、检查点、恢复与有界自主循环来维持执行。"
                   />
                 </p>
+
+                <PaperFigure
+                  src="/figures/overleaf/figure-5-evidence-chain.webp"
+                  fullSrc="/figures/overleaf/figure-5-evidence-chain.png"
+                  alt="Intervention-to-evidence chain showing prevent, detect, recover, and prove mechanisms across model, harness, environment, and evaluation."
+                  altZh="展示模型、运行框架、环境与评估中预防、检测、恢复和证明机制的干预证据链。"
+                  width={1009}
+                  height={476}
+                >
+                  <LocalizedText
+                    en={
+                      <>
+                        <strong>Figure 5.</strong> Model and harness choices can
+                        prevent, detect, or recover from errors, while replayable
+                        environments and matched evaluation protocols make those
+                        effects attributable. A credible extension claim
+                        requires repeated, stratified, matched evaluation with
+                        uncertainty.
+                      </>
+                    }
+                    zh={
+                      <>
+                        <strong>图 5.</strong>{" "}
+                        模型与运行框架的设计可以预防、检测错误或从错误中恢复；可重放环境与匹配的评估协议则使这些效果可以归因。要可信地宣称时程边界得到扩展，需要进行重复、分层、匹配且报告不确定性的评估。
+                      </>
+                    }
+                  />
+                </PaperFigure>
               </section>
 
               <section id="evaluation" className="article-section">
-                <SectionHeading index="06">
+                <SectionHeading index="03">
                   <LocalizedText
-                    en="Evaluate the trajectory, not only the destination."
-                    zh="评估整条轨迹，而不只看最终结果。"
+                    en="How should we evaluate progress?"
+                    zh="如何评估真正的进展？"
                   />
                 </SectionHeading>
+                <p>
+                  <LocalizedText
+                    en="Long-horizon evaluation spans web navigation, computer use, software engineering, tools and workplace apps, planning, and scientific work. Their scores should not be collapsed into a single leaderboard because their stress paths and proof surfaces differ. The paper appendix contains the complete 64-entry benchmark inventory."
+                    zh="长时程评估涵盖网页导航、计算机操作、软件工程、工具与办公应用、规划以及科学研究。由于各类评估的压力路径和验证证据不同，不应将其分数压缩为单一排行榜。论文附录提供了完整的 64 项基准清单。"
+                  />
+                </p>
                 <p>
                   <LocalizedText
                     en="Final success remains essential, but it cannot explain why an agent succeeded, whether it can repeat the result, or what it changed on the way. A useful protocol measures success, consistency, uncertainty, progress, verification, recovery, safety, and efficiency together."
@@ -393,10 +368,10 @@ export default function Home() {
               </section>
 
               <section id="agenda" className="article-section">
-                <SectionHeading index="07">
+                <SectionHeading index="04">
                   <LocalizedText
-                    en="The open problem is trustworthy delegation."
-                    zh="尚待解决的核心问题，是可信赖的任务委托。"
+                    en="What remains unsolved?"
+                    zh="哪些问题仍未解决？"
                   />
                 </SectionHeading>
                 <p>
