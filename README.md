@@ -23,6 +23,15 @@ npm run build
 npm test
 ```
 
+## GitHub Pages
+
+```bash
+npm run export:pages
+```
+
+This writes the static site to `out/`. Pushes to `main` deploy that artifact
+through the GitHub Pages workflow.
+
 The site runs locally with vinext. The bundled paper, figures, tables, and fonts
 are served with no third-party runtime requests. Figures are direct exports of
 the source PDFs in the latest Overleaf project; Tables 1–3 are vector crops from
