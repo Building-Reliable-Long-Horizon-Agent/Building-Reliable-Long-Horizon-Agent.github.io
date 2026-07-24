@@ -40,3 +40,7 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+
+# Required by vite.config.ts; override developer-machine global build/ ignores.
+!/build/
+!/build/sites-vite-plugin.ts
