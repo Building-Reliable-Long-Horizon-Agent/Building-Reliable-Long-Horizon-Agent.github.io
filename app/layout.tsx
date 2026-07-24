@@ -3,13 +3,13 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Reliable Horizon",
+    default: "Building Reliable Long-Horizon Agents: A Survey",
     template: "%s · Reliable Horizon",
   },
   description:
-    "A research field guide to reliable long-horizon LLM agents.",
+    "Definitions, metrics, benchmarks, and system design for reliable long-horizon LLM agents.",
   openGraph: {
-    title: "Building Reliable Long-Horizon Agents",
+    title: "Building Reliable Long-Horizon Agents: A Survey",
     description:
       "Definitions, metrics, benchmarks, and system design for reliable long-horizon LLM agents.",
     type: "article",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary",
-    title: "Building Reliable Long-Horizon Agents",
+    title: "Building Reliable Long-Horizon Agents: A Survey",
     description:
       "A field guide to measuring and extending reliable execution horizon.",
   },

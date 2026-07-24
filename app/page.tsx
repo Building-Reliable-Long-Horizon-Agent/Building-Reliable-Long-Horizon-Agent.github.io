@@ -2,10 +2,37 @@ import type { Metadata } from "next";
 import { ArticleEnhancements, CitationCopy } from "./client";
 
 export const metadata: Metadata = {
-  title: "Building Reliable Long-Horizon Agents",
+  title: "Building Reliable Long-Horizon Agents: A Survey",
   description:
-    "A field guide to measuring and extending the reliable execution horizon of LLM agents.",
+    "Definitions, metrics, benchmarks, and system design for reliable long-horizon LLM agents.",
 };
+
+const authors = [
+  { name: "Kai Wu", mark: "1,*" },
+  { name: "Hao Lyu", mark: "1,*" },
+  { name: "Zhen Luo", mark: "1,*" },
+  { name: "Chaofan Wang", mark: "2" },
+  { name: "Siyu Ye", mark: "6" },
+  { name: "Jinghao Lin", mark: "6" },
+  { name: "Xiaozhong Ji", mark: "3" },
+  { name: "Boyuan Jiang", mark: "4" },
+  { name: "Yiwen Ye", mark: "6" },
+  { name: "Zimu Wang", mark: "5" },
+  { name: "Wenzhe Liu", mark: "6" },
+  { name: "Ruobing Wang", mark: "6" },
+  { name: "Kai Cai", mark: "6" },
+  { name: "Shengzhi Wang", mark: "1" },
+  { name: "Qingwen Liu", mark: "1,†" },
+];
+
+const affiliations = [
+  "Tongji University",
+  "Shanghai Jiao Tong University",
+  "Nanjing University",
+  "Zhejiang University",
+  "University of California, Berkeley",
+  "Simple Agent Lab",
+];
 
 export default function Home() {
   return (
@@ -17,17 +44,15 @@ export default function Home() {
 
       <header className="site-header">
         <a className="brand" href="#top" aria-label="Reliable Horizon home">
-          <span className="brand-mark" aria-hidden="true">
-            RH
-          </span>
-          <span>Reliable Horizon</span>
+          Reliable Horizon
         </a>
         <nav className="site-nav" aria-label="Primary navigation">
+          <a href="#horizon">Overview</a>
           <a href="#framework">Framework</a>
           <a href="#benchmarks">Benchmarks</a>
-          <a href="#evaluation">Evaluation</a>
+          <a href="#citation">Citation</a>
           <a className="nav-paper" href="/paper.pdf">
-            Paper <span aria-hidden="true">↗</span>
+            PDF <span aria-hidden="true">↗</span>
           </a>
         </nav>
       </header>
@@ -35,70 +60,88 @@ export default function Home() {
       <main id="article">
         <article>
           <header className="article-hero" id="top">
-            <div className="hero-kicker">
-              <span>Survey</span>
-              <span>Agent Systems</span>
-              <span>July 2026</span>
-            </div>
-            <h1>Building Reliable Long-Horizon Agents</h1>
+            <p className="hero-kicker">Survey · July 2026</p>
+            <h1>Building Reliable Long-Horizon Agents: A Survey</h1>
             <p className="hero-subtitle">
-              Definitions, metrics, benchmarks, and system design for agents
-              that must keep acting after the easy part is over.
+              Definitions, Metrics, Benchmarks, and System Design
             </p>
-            <div className="hero-meta">
-              <p>
-                <strong>Kai Wu et al.</strong>
-                <span>18 min read</span>
+
+            <div className="paper-authorship">
+              <p className="author-list" aria-label="Paper authors">
+                {authors.map((author, index) => (
+                  <span className="author" key={author.name}>
+                    {author.name}
+                    <sup>{author.mark}</sup>
+                    {index < authors.length - 1 ? ", " : ""}
+                  </span>
+                ))}
               </p>
-              <p className="hero-affiliations">
-                Tongji University · Shanghai Jiao Tong University · Nanjing
-                University · Zhejiang University · UC Berkeley · Simple Agent Lab
+              <p className="author-notes">
+                <span>
+                  <sup>*</sup> Equal contribution
+                </span>
+                <span>
+                  <sup>†</sup> Corresponding author
+                </span>
               </p>
+              <ol className="affiliation-list" aria-label="Author affiliations">
+                {affiliations.map((affiliation, index) => (
+                  <li key={affiliation}>
+                    <sup>{index + 1}</sup>
+                    {affiliation}
+                  </li>
+                ))}
+              </ol>
             </div>
+
             <div className="hero-actions" aria-label="Article actions">
               <a className="button primary" href="/paper.pdf">
-                Read the paper
+                Read the full paper
               </a>
-              <a className="button" href="#benchmarks">
-                Explore the evidence
+              <a className="text-action" href="#abstract">
+                Start with the abstract <span aria-hidden="true">↓</span>
               </a>
             </div>
           </header>
 
-          <div className="article-layout">
-            <aside className="outline" aria-label="On this page">
-              <p>On this page</p>
+          <div className="article-shell">
+            <details className="article-toc" open>
+              <summary>Table of contents</summary>
               <ol>
                 <li>
-                  <a href="#horizon">The horizon test</a>
+                  <a href="#horizon">Long-horizon definition</a>
                 </li>
                 <li>
-                  <a href="#framework">A systems property</a>
+                  <a href="#framework">System framework</a>
                 </li>
                 <li>
-                  <a href="#axes">Six pressure axes</a>
+                  <a href="#axes">Six task-pressure axes</a>
                 </li>
                 <li>
-                  <a href="#benchmarks">Benchmark map</a>
+                  <a href="#benchmarks">Benchmark landscape</a>
                 </li>
                 <li>
-                  <a href="#design">System design</a>
+                  <a href="#design">Model and harness design</a>
                 </li>
                 <li>
-                  <a href="#evaluation">Evaluation stack</a>
+                  <a href="#evaluation">Evaluation protocol</a>
                 </li>
                 <li>
                   <a href="#agenda">Open problems</a>
                 </li>
+                <li>
+                  <a href="#citation">Citation</a>
+                </li>
               </ol>
-              <a className="outline-pdf" href="/paper.pdf">
-                Download PDF <span aria-hidden="true">↓</span>
-              </a>
-            </aside>
+            </details>
 
             <div className="prose">
-              <section className="tldr" aria-labelledby="tldr-title">
-                <h2 id="tldr-title">In one sentence</h2>
+              <section
+                className="tldr"
+                id="abstract"
+                aria-labelledby="tldr-title"
+              >
+                <h2 id="tldr-title">Abstract, in one sentence</h2>
                 <p>
                   Long-horizon capability is not a model property or a context
                   window length. It is the range over which a complete agent
@@ -378,16 +421,15 @@ export default function Home() {
                 </p>
               </section>
 
-              <section className="paper-block" id="paper">
-                <p className="paper-kicker">Continue reading</p>
-                <h2>The complete survey</h2>
+              <section className="paper-block" id="citation">
+                <p className="paper-kicker">Citation</p>
+                <h2>How to cite this survey</h2>
                 <p>
-                  The manuscript includes the full benchmark inventory, cited
-                  evidence, model and harness taxonomies, evaluation protocols,
-                  survey methodology, and bibliography.
+                  {authors.map((author) => author.name).join(", ")}. “Building
+                  Reliable Long-Horizon Agents: A Survey.” Preprint, 2026.
                 </p>
                 <a className="button primary" href="/paper.pdf">
-                  Open the PDF
+                  Read the complete survey
                 </a>
                 <CitationCopy />
               </section>
@@ -401,7 +443,10 @@ export default function Home() {
           <strong>Reliable Horizon</strong>
           <span>Building Reliable Long-Horizon Agents: A Survey</span>
         </p>
-        <a href="#top">Back to top ↑</a>
+        <p>
+          <span>Survey manuscript · July 2026</span>
+          <a href="#top">Back to top ↑</a>
+        </p>
       </footer>
     </>
   );

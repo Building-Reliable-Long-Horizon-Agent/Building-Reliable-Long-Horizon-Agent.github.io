@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react";
 
-const citation = `@article{wu2026reliablehorizon,
-  title   = {Building Reliable Long-Horizon Agents: A Survey},
-  author  = {Wu, Kai and Lyu, Hao and Luo, Zhen and others},
-  year    = {2026},
-  note    = {Preprint}
+const citation = `@misc{wu2026building,
+  title  = {Building Reliable Long-Horizon Agents: A Survey},
+  author = {Wu, Kai and Lyu, Hao and Luo, Zhen and Wang, Chaofan and Ye, Siyu and Lin, Jinghao and Ji, Xiaozhong and Jiang, Boyuan and Ye, Yiwen and Wang, Zimu and Liu, Wenzhe and Wang, Ruobing and Cai, Kai and Wang, Shengzhi and Liu, Qingwen},
+  year   = {2026},
+  month  = jul,
+  note   = {Preprint}
 }`;
 
 export function ArticleEnhancements() {

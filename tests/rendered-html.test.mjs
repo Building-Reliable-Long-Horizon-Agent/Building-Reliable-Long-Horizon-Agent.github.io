@@ -31,9 +31,15 @@ test("server-renders the complete research article", async () => {
   const html = await response.text();
   assert.match(
     html,
-    /<title>Building Reliable Long-Horizon Agents · Reliable Horizon<\/title>/i,
+    /<title>Building Reliable Long-Horizon Agents: A Survey · Reliable Horizon<\/title>/i,
   );
-  assert.match(html, /<h1>Building Reliable Long-Horizon Agents<\/h1>/i);
+  assert.match(
+    html,
+    /<h1>Building Reliable Long-Horizon Agents: A Survey<\/h1>/i,
+  );
+  assert.match(html, /Kai Wu<sup>1,\*<\/sup>/);
+  assert.match(html, /Qingwen Liu<sup>1,†<\/sup>/);
+  assert.match(html, /aria-label="Author affiliations"/);
   assert.match(html, /id="horizon"/);
   assert.match(html, /id="framework"/);
   assert.match(html, /id="axes"/);
@@ -41,14 +47,24 @@ test("server-renders the complete research article", async () => {
   assert.match(html, /id="evaluation"/);
   assert.match(html, /href="\/paper\.pdf"/);
   assert.match(html, /64-entry benchmark inventory/);
-  assert.match(html, /aria-label="On this page"/);
+  assert.match(html, /<summary>Table of contents<\/summary>/);
+  assert.match(html, /id="citation"/);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Your site is taking shape/);
 });
 
 test("removes starter-only code and packages local article assets", async () => {
-  const [page, layout, packageJson, hosting, paper, figure, benchmarkTable] =
-    await Promise.all([
+  const [
+    page,
+    client,
+    layout,
+    packageJson,
+    hosting,
+    paper,
+    figure,
+    benchmarkTable,
+  ] = await Promise.all([
       readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+      readFile(new URL("../app/client.tsx", import.meta.url), "utf8"),
       readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
       readFile(new URL("../package.json", import.meta.url), "utf8"),
       readFile(new URL("../.openai/hosting.json", import.meta.url), "utf8"),
@@ -76,6 +92,8 @@ test("removes starter-only code and packages local article assets", async () => 
   assert.doesNotMatch(page, /step-line|system-stack|evaluation-stack/);
   assert.doesNotMatch(page, /table-[123][^"]*\.png/);
   assert.match(page, /figures\/overleaf\/figure-6-open-problems\.png/);
+  assert.match(client, /Wang, Shengzhi and Liu, Qingwen/);
+  assert.doesNotMatch(client, /and others/);
   assert.equal(paper, undefined);
   assert.equal(figure, undefined);
   assert.equal(benchmarkTable, undefined);
