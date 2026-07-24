@@ -24,5 +24,6 @@ npm test
 ```
 
 The site is built with vinext for deployment through OpenAI Sites. The bundled
-paper, fonts, and evidence figure are served locally with no third-party runtime
-requests.
+paper, figures, tables, and fonts are served locally with no third-party runtime
+requests. Figure and table images are exported from the latest compiled Overleaf
+manuscript rather than redrawn for the web.

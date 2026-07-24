@@ -7,67 +7,6 @@ export const metadata: Metadata = {
     "A field guide to measuring and extending the reliable execution horizon of LLM agents.",
 };
 
-const axes = [
-  {
-    code: "T",
-    name: "Human-effort time",
-    question: "How long would the work take a qualified human?",
-    evidence: "METR · RE-Bench · ALE-Bench",
-  },
-  {
-    code: "I",
-    name: "Interaction length",
-    question: "How many dependent actions must remain coherent?",
-    evidence: "MINT · AgentBoard · UltraHorizon",
-  },
-  {
-    code: "C",
-    name: "Context and memory",
-    question: "How long must useful state stay correct and retrievable?",
-    evidence: "AMA-Bench · AppWorld · OdysseyBench",
-  },
-  {
-    code: "G",
-    name: "Environment grounding",
-    question: "How tightly must actions track a changing world?",
-    evidence: "WebArena · OSWorld · AndroidWorld",
-  },
-  {
-    code: "D",
-    name: "Planning dependency",
-    question: "How deeply do later choices depend on earlier ones?",
-    evidence: "TravelPlanner · Robotouille · SWE-bench",
-  },
-  {
-    code: "O",
-    name: "Verification observability",
-    question: "How late, sparse, or ambiguous is the correctness signal?",
-    evidence: "τ-bench · AppWorld · SWE-bench Verified",
-  },
-];
-
-const benchmarks = [
-  ["Web", "WebArena", "G · I · O", "Goal-state match"],
-  ["Web", "VisualWebArena", "G · I", "Goal-state match"],
-  ["Computer", "OSWorld", "G · I · C · O", "State / side effects"],
-  ["Computer", "AndroidWorld", "G · I · C", "State / side effects"],
-  ["Software", "SWE-bench", "D · C · O", "Executable tests"],
-  ["Software", "Terminal-Bench", "G · I · O", "Executable tests"],
-  ["Tools", "AppWorld", "C · I · O", "State / side effects"],
-  ["Tools", "TheAgentCompany", "C · D · G", "Checkpointed progress"],
-  ["Planning", "TravelPlanner", "D · C · O", "Constraint checker"],
-  ["Planning", "Robotouille", "D · I · O", "Constraint checker"],
-];
-
-const evaluationLayers = [
-  ["01", "Task success", "Did the final state satisfy the declared objective?"],
-  ["02", "Constraint consistency", "Were requirements preserved across the trajectory?"],
-  ["03", "Safety and side effects", "What changed beyond the intended task?"],
-  ["04", "Progress and recovery", "Where did the system fail, notice, and resume?"],
-  ["05", "Cost and latency", "How much inference, tool use, time, and oversight were spent?"],
-  ["06", "Uncertainty", "Does the result repeat across trials and stress levels?"],
-];
-
 export default function Home() {
   return (
     <>
@@ -184,6 +123,16 @@ export default function Home() {
                 model, harness, environment, and evaluation protocol.
               </p>
 
+              <PaperFigure
+                src="/figures/overleaf/figure-1-teaser.png"
+                alt="Conceptual overview of the research landscape for reliable long-horizon agents, spanning benchmark domains, model design, harness design, and open problems."
+              >
+                <strong>Figure 1.</strong> Conceptual overview of the research
+                landscape for reliable long-horizon agents, spanning five
+                benchmark domains, model design, harness design, and open
+                problems beyond the current reliable horizon.
+              </PaperFigure>
+
               <section id="horizon" className="article-section">
                 <SectionHeading index="01">
                   Length is a weak proxy. Dependency is the test.
@@ -196,30 +145,16 @@ export default function Home() {
                   defines it.
                 </p>
 
-                <div className="comparison" role="group" aria-label="Two trajectory types">
-                  <div>
-                    <span className="comparison-label">Many steps, little horizon</span>
-                    <div className="step-line independent" aria-hidden="true">
-                      <i />
-                      <i />
-                      <i />
-                      <i />
-                      <i />
-                    </div>
-                    <p>Independent lookups can be reordered without changing success.</p>
-                  </div>
-                  <div>
-                    <span className="comparison-label">Cross-step coupling</span>
-                    <div className="step-line coupled" aria-hidden="true">
-                      <i />
-                      <i />
-                      <i />
-                      <i />
-                      <i />
-                    </div>
-                    <p>Each action changes what the next action can safely mean.</p>
-                  </div>
-                </div>
+                <PaperFigure
+                  src="/figures/overleaf/figure-3-definition-axes.png"
+                  alt="Conceptual diagram explaining cross-step coupling, the six task-pressure axes, and reliable horizon."
+                >
+                  <strong>Figure 3.</strong> Cross-step coupling distinguishes
+                  long-horizon execution from merely long inputs or independent
+                  steps. The six axes characterize how task pressure increases;
+                  reliability is the response of a fixed system under a fixed
+                  protocol.
+                </PaperFigure>
 
                 <blockquote>
                   <p>
@@ -247,29 +182,6 @@ export default function Home() {
                   base model stays fixed.
                 </p>
 
-                <div className="system-stack" role="list" aria-label="Agent system stack">
-                  <div role="listitem">
-                    <span>Model</span>
-                    <p>Local reasoning, planning, action selection, and tool-use quality.</p>
-                    <b>decides</b>
-                  </div>
-                  <div role="listitem">
-                    <span>Harness</span>
-                    <p>Context, tools, memory, checkpoints, control flow, recovery.</p>
-                    <b>sustains</b>
-                  </div>
-                  <div role="listitem">
-                    <span>Environment</span>
-                    <p>State transitions, interface semantics, feedback, observability.</p>
-                    <b>responds</b>
-                  </div>
-                  <div role="listitem">
-                    <span>Protocol</span>
-                    <p>Budgets, retries, graders, trials, safety checks, uncertainty.</p>
-                    <b>proves</b>
-                  </div>
-                </div>
-
                 <p>
                   Small local weaknesses compound when an error enters memory,
                   corrupts external state, invalidates a later precondition, or
@@ -278,18 +190,27 @@ export default function Home() {
                   allowed to propagate.
                 </p>
 
-                <figure className="wide-figure">
-                  <img
-                    src="/figures/reliable-horizon-evidence.png"
-                    alt="Evidence chain: define task pressure, freeze the stack, repeat trials, test the boundary shift, and report model, harness, environment, and protocol."
-                  />
-                  <figcaption>
-                    What proves a reliable-horizon extension. A single successful
-                    run is motivation, not evidence. The system must be held
-                    fixed, repeated under a declared stress path, and tested for
-                    a robust boundary shift.
-                  </figcaption>
-                </figure>
+                <PaperFigure
+                  src="/figures/overleaf/figure-5-evidence-chain.png"
+                  alt="Intervention-to-evidence chain showing prevent, detect, recover, and prove mechanisms across model, harness, environment, and evaluation."
+                >
+                  <strong>Figure 5.</strong> Model and harness choices can
+                  prevent, detect, or recover from errors, while replayable
+                  environments and matched evaluation protocols make those
+                  effects attributable. A credible extension claim requires
+                  repeated, stratified, matched evaluation with uncertainty.
+                </PaperFigure>
+
+                <PaperFigure
+                  src="/figures/overleaf/figure-2-survey-map.png"
+                  alt="Survey map linking each section to its long-horizon themes and representative evidence."
+                  compact
+                >
+                  <strong>Figure 2.</strong> Survey map linking each section to
+                  its long-horizon themes and representative evidence. Branches
+                  organize the literature; years identify source records rather
+                  than comparable performance values.
+                </PaperFigure>
               </section>
 
               <section id="axes" className="article-section">
@@ -302,30 +223,15 @@ export default function Home() {
                   may stress one axis or several at once.
                 </p>
 
-                <ol className="axis-list">
-                  {axes.map((axis) => (
-                    <li key={axis.code}>
-                      <span className="axis-code">{axis.code}</span>
-                      <div>
-                        <h3>{axis.name}</h3>
-                        <p>{axis.question}</p>
-                      </div>
-                      <small>{axis.evidence}</small>
-                    </li>
-                  ))}
-                </ol>
-
-                <div className="equation" aria-label="Reliable region equation">
-                  <span>Reliable region</span>
-                  <code>
-                    H<sub>α</sub>(S,Q) = &#123; z : R<sub>S,Q</sub>(z) ≥ α &#125;
-                  </code>
-                  <p>
-                    The set of task pressures <em>z</em> where system <em>S</em>,
-                    under protocol <em>Q</em>, succeeds at or above a declared
-                    reliability threshold <em>α</em>.
-                  </p>
-                </div>
+                <PaperFigure
+                  src="/figures/overleaf/table-1-six-axes.png"
+                  alt="Table 1: Six long-horizon axes, their task pressures, and the corresponding reliability questions."
+                  table
+                >
+                  <strong>Table 1.</strong> Six long-horizon axes and their
+                  reliability interpretation, exported from the latest compiled
+                  manuscript.
+                </PaperFigure>
               </section>
 
               <section id="benchmarks" className="article-section">
@@ -340,33 +246,15 @@ export default function Home() {
                   surfaces differ.
                 </p>
 
-                <div className="table-wrap" tabIndex={0} role="region" aria-label="Representative benchmark map">
-                  <table>
-                    <caption>
-                      Representative slice of the survey&apos;s 64-entry benchmark inventory
-                    </caption>
-                    <thead>
-                      <tr>
-                        <th scope="col">Domain</th>
-                        <th scope="col">Benchmark</th>
-                        <th scope="col">Pressure axes</th>
-                        <th scope="col">Primary evidence</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {benchmarks.map(([domain, name, pressure, proof]) => (
-                        <tr key={name}>
-                          <td>{domain}</td>
-                          <th scope="row">{name}</th>
-                          <td>
-                            <code>{pressure}</code>
-                          </td>
-                          <td>{proof}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                <PaperFigure
+                  src="/figures/overleaf/table-2-benchmarks.png"
+                  alt="Table 2: Representative long-horizon agent benchmarks with domain, scale, typed per-task extent, coupling, persistent state, and correctness signal."
+                  table
+                >
+                  <strong>Table 2.</strong> Representative long-horizon agent
+                  benchmarks and concrete horizon evidence. The complete
+                  64-entry benchmark inventory appears in the paper appendix.
+                </PaperFigure>
 
                 <p className="note">
                   <strong>Read the score with the protocol.</strong> A result is
@@ -386,44 +274,22 @@ export default function Home() {
                   transition to the next.
                 </p>
 
-                <div className="two-column-evidence">
-                  <div>
-                    <p className="column-kicker">Model design</p>
-                    <h3>Make the next action better</h3>
-                    <ul>
-                      <li>
-                        <strong>Reasoning and planning supervision</strong>
-                        Decompose goals, maintain subgoals, and revise against feedback.
-                      </li>
-                      <li>
-                        <strong>Tool-use learning</strong>
-                        Ground tool selection, arguments, and action semantics.
-                      </li>
-                      <li>
-                        <strong>Long-trajectory reinforcement learning</strong>
-                        Learn from delayed rewards and failure-rich rollouts.
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="column-kicker">Harness design</p>
-                    <h3>Keep one error from becoming many</h3>
-                    <ul>
-                      <li>
-                        <strong>Execution control and feedback</strong>
-                        Bound loops, expose environment state, and gate actions.
-                      </li>
-                      <li>
-                        <strong>Context, memory, and persistent state</strong>
-                        Preserve invariants, provenance, freshness, and artifacts.
-                      </li>
-                      <li>
-                        <strong>Verification, recovery, and autonomy</strong>
-                        Checkpoint, localize faults, roll back, replan, and escalate.
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+                <PaperFigure
+                  src="/figures/overleaf/figure-4-model-design.png"
+                  alt="Taxonomy of model-design mechanisms for reasoning and planning, tool-use learning, and reinforcement learning in long-horizon agents."
+                >
+                  <strong>Figure 4.</strong> Model-design mechanisms for reducing
+                  local decision error: reasoning and planning supervision,
+                  tool-use learning, and trajectory-level reinforcement learning.
+                  The diagram is a conceptual taxonomy, not a quantitative
+                  comparison.
+                </PaperFigure>
+
+                <p>
+                  Harness design then sustains execution through feedback,
+                  context selection, persistent state, verification,
+                  checkpointing, recovery, and bounded autonomous loops.
+                </p>
 
                 <blockquote className="signal-quote">
                   <p>
@@ -445,15 +311,15 @@ export default function Home() {
                   stack.
                 </p>
 
-                <ol className="evaluation-stack">
-                  {evaluationLayers.map(([index, title, description]) => (
-                    <li key={index}>
-                      <span>{index}</span>
-                      <h3>{title}</h3>
-                      <p>{description}</p>
-                    </li>
-                  ))}
-                </ol>
+                <PaperFigure
+                  src="/figures/overleaf/table-3-metric-stack.png"
+                  alt="Table 3: Metric stack for reliable long-horizon agent evaluation, including outcome, repeated attempts, reliability, uncertainty, reliable boundary, progress, trajectory, verification, recovery, safety, and efficiency."
+                  table
+                >
+                  <strong>Table 3.</strong> Metric stack for reliable
+                  long-horizon agent evaluation, exported from the latest
+                  compiled manuscript.
+                </PaperFigure>
 
                 <p>
                   To claim progress, declare a native stress path, freeze the
@@ -474,36 +340,36 @@ export default function Home() {
                   real use. Four problems are especially urgent.
                 </p>
 
-                <div className="agenda-list">
-                  <article>
-                    <span>A</span>
-                    <div>
-                      <h3>Model–harness attribution</h3>
-                      <p>Hold one layer fixed while varying another, then report cross-combinations.</p>
-                    </div>
-                  </article>
-                  <article>
-                    <span>B</span>
-                    <div>
-                      <h3>Cost-normalized reliability</h3>
-                      <p>Compare success jointly with tokens, tools, latency, verification, and human effort.</p>
-                    </div>
-                  </article>
-                  <article>
-                    <span>C</span>
-                    <div>
-                      <h3>Contamination-resistant environments</h3>
-                      <p>Rotate tasks, tool schemas, hidden state, and solution traces, not only final questions.</p>
-                    </div>
-                  </article>
-                  <article>
-                    <span>D</span>
-                    <div>
-                      <h3>Adaptive human oversight</h3>
-                      <p>Measure when systems ask, when humans intervene, and whether recovery remains reversible.</p>
-                    </div>
-                  </article>
-                </div>
+                <PaperFigure
+                  src="/figures/overleaf/figure-6-open-problems.png"
+                  alt="Overview of failure modes and open problems in reliable long-horizon execution."
+                >
+                  <strong>Figure 6.</strong> Planning, grounding, and tool
+                  failures; memory failure and goal drift; error propagation and
+                  recovery; and evaluation validity, cost, and human oversight.
+                </PaperFigure>
+
+                <ul className="plain-agenda">
+                  <li>
+                    <strong>Model–harness attribution.</strong> Hold one layer
+                    fixed while varying another, then report cross-combinations.
+                  </li>
+                  <li>
+                    <strong>Cost-normalized reliability.</strong> Compare
+                    success jointly with tokens, tools, latency, verification,
+                    and human effort.
+                  </li>
+                  <li>
+                    <strong>Contamination-resistant environments.</strong>
+                    Rotate tasks, tool schemas, hidden state, and solution
+                    traces, not only final questions.
+                  </li>
+                  <li>
+                    <strong>Adaptive human oversight.</strong> Measure when
+                    systems ask, when humans intervene, and whether recovery
+                    remains reversible.
+                  </li>
+                </ul>
 
                 <p className="closing-statement">
                   Progress is not an agent that runs forever. It is a system
@@ -553,5 +419,40 @@ function SectionHeading({
       <span>{index}</span>
       <h2>{children}</h2>
     </div>
+  );
+}
+
+function PaperFigure({
+  src,
+  alt,
+  children,
+  compact = false,
+  table = false,
+}: {
+  src: string;
+  alt: string;
+  children: React.ReactNode;
+  compact?: boolean;
+  table?: boolean;
+}) {
+  const classes = [
+    "wide-figure",
+    "paper-source",
+    compact ? "paper-source-compact" : "",
+    table ? "paper-source-table" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return (
+    <figure className={classes}>
+      <a href={src} target="_blank" rel="noreferrer">
+        <img src={src} alt={alt} />
+      </a>
+      <figcaption>
+        {children}
+        <span>Open full resolution ↗</span>
+      </figcaption>
+    </figure>
   );
 }

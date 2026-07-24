@@ -46,19 +46,26 @@ test("server-renders the complete research article", async () => {
 });
 
 test("removes starter-only code and packages local article assets", async () => {
-  const [page, layout, packageJson, hosting, paper, figure] = await Promise.all([
-    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../package.json", import.meta.url), "utf8"),
-    readFile(new URL("../.openai/hosting.json", import.meta.url), "utf8"),
-    access(new URL("../public/paper.pdf", import.meta.url)),
-    access(
-      new URL(
-        "../public/figures/reliable-horizon-evidence.png",
-        import.meta.url,
+  const [page, layout, packageJson, hosting, paper, figure, benchmarkTable] =
+    await Promise.all([
+      readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+      readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+      readFile(new URL("../package.json", import.meta.url), "utf8"),
+      readFile(new URL("../.openai/hosting.json", import.meta.url), "utf8"),
+      access(new URL("../public/paper.pdf", import.meta.url)),
+      access(
+        new URL(
+          "../public/figures/overleaf/figure-5-evidence-chain.png",
+          import.meta.url,
+        ),
       ),
-    ),
-  ]);
+      access(
+        new URL(
+          "../public/figures/overleaf/table-2-benchmarks.png",
+          import.meta.url,
+        ),
+      ),
+    ]);
 
   assert.match(page, /Building Reliable Long-Horizon Agents/);
   assert.match(layout, /Reliable Horizon/);
@@ -66,8 +73,11 @@ test("removes starter-only code and packages local article assets", async () => 
   assert.match(hosting, /"project_id": "appgprj_/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(page, /codex-preview|_sites-preview|SkeletonPreview/);
+  assert.doesNotMatch(page, /step-line|system-stack|evaluation-stack/);
+  assert.match(page, /figures\/overleaf\/figure-6-open-problems\.png/);
   assert.equal(paper, undefined);
   assert.equal(figure, undefined);
+  assert.equal(benchmarkTable, undefined);
 
   await assert.rejects(
     access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)),
