@@ -156,7 +156,8 @@ export default function Home() {
               </p>
 
               <PaperFigure
-                src="/figures/overleaf/figure-1-teaser.webp"
+                src="/figures/overleaf/figure-1-teaser-960.webp"
+                srcSet="/figures/overleaf/figure-1-teaser-960.webp 960w, /figures/overleaf/figure-1-teaser-1440.webp 1440w, /figures/overleaf/figure-1-teaser-1920.webp 1920w"
                 fullSrc="/figures/overleaf/figure-1-teaser.png"
                 alt="Conceptual overview of the research landscape for reliable long-horizon agents, spanning benchmark domains, model design, harness design, and open problems."
                 altZh="可靠长时程智能体研究版图的概念总览，涵盖基准领域、模型设计、运行框架设计与开放问题。"
@@ -198,7 +199,8 @@ export default function Home() {
                 </p>
 
                 <PaperFigure
-                  src="/figures/overleaf/figure-3-definition-axes.webp"
+                  src="/figures/overleaf/figure-3-definition-axes-960.webp"
+                  srcSet="/figures/overleaf/figure-3-definition-axes-960.webp 960w, /figures/overleaf/figure-3-definition-axes-1440.webp 1440w, /figures/overleaf/figure-3-definition-axes-1920.webp 1920w"
                   fullSrc="/figures/overleaf/figure-3-definition-axes.png"
                   alt="Conceptual diagram explaining cross-step coupling, the six task-pressure axes, and reliable horizon."
                   altZh="解释跨步骤耦合、六个任务压力维度与可靠时程的概念图。"
@@ -277,7 +279,8 @@ export default function Home() {
                 </p>
 
                 <PaperFigure
-                  src="/figures/overleaf/figure-4-model-design.webp"
+                  src="/figures/overleaf/figure-4-model-design-960.webp"
+                  srcSet="/figures/overleaf/figure-4-model-design-960.webp 960w, /figures/overleaf/figure-4-model-design-1440.webp 1440w, /figures/overleaf/figure-4-model-design.webp 1676w"
                   fullSrc="/figures/overleaf/figure-4-model-design.png"
                   alt="Taxonomy of model-design mechanisms for reasoning and planning, tool-use learning, and reinforcement learning in long-horizon agents."
                   altZh="长时程智能体中推理与规划、工具使用学习和强化学习等模型设计机制的分类。"
@@ -382,7 +385,8 @@ export default function Home() {
                 </p>
 
                 <PaperFigure
-                  src="/figures/overleaf/figure-6-open-problems.webp"
+                  src="/figures/overleaf/figure-6-open-problems-960.webp"
+                  srcSet="/figures/overleaf/figure-6-open-problems-960.webp 960w, /figures/overleaf/figure-6-open-problems-1440.webp 1440w, /figures/overleaf/figure-6-open-problems-1920.webp 1920w"
                   fullSrc="/figures/overleaf/figure-6-open-problems.png"
                   alt="Overview of failure modes and open problems in reliable long-horizon execution."
                   altZh="可靠长时程执行中的失效模式与开放问题概览。"
@@ -504,6 +508,7 @@ function ResourceLink({
 
 function PaperFigure({
   src,
+  srcSet,
   fullSrc,
   alt,
   altZh,
@@ -513,6 +518,7 @@ function PaperFigure({
   priority = false,
 }: {
   src: string;
+  srcSet?: string;
   fullSrc?: string;
   alt: string;
   altZh: string;
@@ -526,6 +532,12 @@ function PaperFigure({
       <a href={fullSrc ?? src} target="_blank" rel="noreferrer">
         <img
           src={src}
+          srcSet={srcSet}
+          sizes={
+            srcSet
+              ? "(max-width: 620px) calc(100vw - 36px), (max-width: 960px) calc(100vw - 44px), 904px"
+              : undefined
+          }
           alt={alt}
           data-alt-en={alt}
           data-alt-zh={altZh}

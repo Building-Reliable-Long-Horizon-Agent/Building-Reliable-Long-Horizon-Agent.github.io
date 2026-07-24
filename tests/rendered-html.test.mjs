@@ -102,11 +102,11 @@ test("server-renders the complete research article", async () => {
   assert.doesNotMatch(html, /How to cite this survey|Read the complete survey/);
   assert.match(
     html,
-    /src="\/figures\/overleaf\/figure-1-teaser\.webp"[^>]*loading="eager"[^>]*fetchPriority="high"/,
+    /src="\/figures\/overleaf\/figure-1-teaser-960\.webp"[^>]*srcSet="[^"]*figure-1-teaser-1920\.webp 1920w"[^>]*sizes="[^"]*904px"[^>]*loading="eager"[^>]*fetchPriority="high"/,
   );
   assert.match(
     html,
-    /href="\/figures\/overleaf\/figure-6-open-problems\.png"[^>]*><img[^>]*src="\/figures\/overleaf\/figure-6-open-problems\.webp"[^>]*loading="lazy"/,
+    /href="\/figures\/overleaf\/figure-6-open-problems\.png"[^>]*><img[^>]*src="\/figures\/overleaf\/figure-6-open-problems-960\.webp"[^>]*srcSet="[^"]*figure-6-open-problems-1920\.webp 1920w"[^>]*loading="lazy"/,
   );
   const paperImages =
     html.match(/<img[^>]*data-paper-asset="true"[^>]*>/g) ?? [];
@@ -156,6 +156,8 @@ test("removes starter-only code and packages local article assets", async () => 
     favicon,
     appleTouchIcon,
     figure,
+    responsiveFirstFigure,
+    responsiveLastFigure,
   ] = await Promise.all([
       readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
       readFile(new URL("../app/client.tsx", import.meta.url), "utf8"),
@@ -181,6 +183,18 @@ test("removes starter-only code and packages local article assets", async () => 
           import.meta.url,
         ),
       ),
+      access(
+        new URL(
+          "../public/figures/overleaf/figure-1-teaser-960.webp",
+          import.meta.url,
+        ),
+      ),
+      access(
+        new URL(
+          "../public/figures/overleaf/figure-6-open-problems-1920.webp",
+          import.meta.url,
+        ),
+      ),
     ]);
 
   assert.match(page, /Building Reliable Long-Horizon Agents/);
@@ -198,7 +212,7 @@ test("removes starter-only code and packages local article assets", async () => 
   assert.doesNotMatch(page, /codex-preview|_sites-preview|SkeletonPreview/);
   assert.doesNotMatch(page, /step-line|system-stack|evaluation-stack/);
   assert.doesNotMatch(page, /table-[123][^"]*\.png/);
-  assert.match(page, /figures\/overleaf\/figure-6-open-problems\.webp/);
+  assert.match(page, /figures\/overleaf\/figure-6-open-problems-960\.webp/);
   assert.match(page, /fullSrc="\/figures\/overleaf\/figure-6-open-problems\.png"/);
   assert.match(client, /Wang, Shengzhi and Liu, Qingwen/);
   assert.match(
@@ -209,8 +223,7 @@ test("removes starter-only code and packages local article assets", async () => 
     client,
     /url    = \{https:\/\/building-reliable-long-horizon-agent\.github\.io\/\}/,
   );
-  assert.match(client, /preloadPaperAssets/);
-  assert.match(client, /image\.fetchPriority = "low"/);
+  assert.doesNotMatch(client, /preloadPaperAssets|image\.fetchPriority = "low"/);
   assert.doesNotMatch(client, /and others/);
   assert.equal(paper, undefined);
   assert.equal(githubIcon, undefined);
@@ -218,6 +231,8 @@ test("removes starter-only code and packages local article assets", async () => 
   assert.equal(favicon, undefined);
   assert.equal(appleTouchIcon, undefined);
   assert.equal(figure, undefined);
+  assert.equal(responsiveFirstFigure, undefined);
+  assert.equal(responsiveLastFigure, undefined);
 
   await assert.rejects(
     access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)),
