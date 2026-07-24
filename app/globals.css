@@ -511,18 +511,8 @@ figcaption > span {
   text-transform: uppercase;
 }
 
-.paper-block h2 {
-  margin: 0 0 14px;
-  font: 660 38px/1.1 var(--sans);
-  letter-spacing: -0.035em;
-}
-
 .paper-block > p:not(.paper-kicker) {
   color: var(--ink-soft);
-}
-
-.paper-block > .button {
-  margin: 4px 0 28px;
 }
 
 .citation {

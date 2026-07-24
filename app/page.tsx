@@ -446,14 +446,10 @@ export default function Home() {
 
               <section className="paper-block" id="citation">
                 <p className="paper-kicker">Citation</p>
-                <h2>How to cite this survey</h2>
                 <p>
                   {authors.map((author) => author.name).join(", ")}. “Building
                   Reliable Long-Horizon Agents: A Survey.” Preprint, 2026.
                 </p>
-                <a className="button primary" href="/paper.pdf">
-                  Read the complete survey
-                </a>
                 <CitationCopy />
               </section>
             </div>

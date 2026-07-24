@@ -67,6 +67,7 @@ test("server-renders the complete research article", async () => {
   assert.match(html, /64-entry benchmark inventory/);
   assert.match(html, /<summary>Table of contents<\/summary>/);
   assert.match(html, /id="citation"/);
+  assert.doesNotMatch(html, /How to cite this survey|Read the complete survey/);
   assert.match(
     html,
     /src="\/figures\/overleaf\/figure-1-teaser\.webp"[^>]*loading="eager"[^>]*fetchPriority="high"/,
@@ -129,6 +130,14 @@ test("removes starter-only code and packages local article assets", async () => 
   assert.match(page, /figures\/overleaf\/figure-6-open-problems\.webp/);
   assert.match(page, /fullSrc="\/figures\/overleaf\/figure-6-open-problems\.png"/);
   assert.match(client, /Wang, Shengzhi and Liu, Qingwen/);
+  assert.match(
+    client,
+    /title  = \{\{Building Reliable Long-Horizon Agents: A Survey\}\}/,
+  );
+  assert.match(
+    client,
+    /url    = \{https:\/\/building-reliable-long-horizon-agent\.github\.io\/\}/,
+  );
   assert.match(client, /preloadPaperAssets/);
   assert.match(client, /image\.fetchPriority = "low"/);
   assert.doesNotMatch(client, /and others/);
