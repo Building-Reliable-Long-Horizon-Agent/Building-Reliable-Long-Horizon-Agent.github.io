@@ -48,6 +48,18 @@ test("server-renders the complete research article", async () => {
   assert.match(html, /href="\/paper\.pdf"/);
   assert.match(
     html,
+    /href="https:\/\/github\.com\/Building-Reliable-Long-Horizon-Agent\/Building-Reliable-Long-Horizon-Agent\.github\.io"/,
+  );
+  assert.match(
+    html,
+    /class="button unavailable" aria-disabled="true">arXiv<span class="resource-status">soon<\/span>/,
+  );
+  assert.match(
+    html,
+    /class="button unavailable" aria-disabled="true">OpenReview<span class="resource-status">soon<\/span>/,
+  );
+  assert.match(
+    html,
     /<link rel="icon" href="\/favicon\.svg" type="image\/svg\+xml"\/>/,
   );
   assert.match(html, /64-entry benchmark inventory/);

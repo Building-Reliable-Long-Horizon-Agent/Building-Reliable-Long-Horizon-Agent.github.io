@@ -34,6 +34,13 @@ const affiliations = [
   "Simple Agent Lab",
 ];
 
+const projectLinks = {
+  github:
+    "https://github.com/Building-Reliable-Long-Horizon-Agent/Building-Reliable-Long-Horizon-Agent.github.io",
+  arxiv: undefined,
+  openReview: undefined,
+} as const;
+
 export default function Home() {
   return (
     <>
@@ -51,6 +58,13 @@ export default function Home() {
           <a href="#framework">Framework</a>
           <a href="#benchmarks">Benchmarks</a>
           <a href="#citation">Citation</a>
+          <a
+            href={projectLinks.github}
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub
+          </a>
           <a className="nav-paper" href="/paper.pdf">
             PDF <span aria-hidden="true">↗</span>
           </a>
@@ -98,6 +112,12 @@ export default function Home() {
               <a className="button primary" href="/paper.pdf">
                 Read the full paper
               </a>
+              <ResourceLink label="GitHub" href={projectLinks.github} />
+              <ResourceLink label="arXiv" href={projectLinks.arxiv} />
+              <ResourceLink
+                label="OpenReview"
+                href={projectLinks.openReview}
+              />
               <a className="text-action" href="#abstract">
                 Start with the abstract <span aria-hidden="true">↓</span>
               </a>
@@ -489,6 +509,29 @@ function SectionHeading({
       <span>{index}</span>
       <h2>{children}</h2>
     </div>
+  );
+}
+
+function ResourceLink({
+  label,
+  href,
+}: {
+  label: string;
+  href?: string;
+}) {
+  if (!href) {
+    return (
+      <span className="button unavailable" aria-disabled="true">
+        {label}
+        <span className="resource-status">soon</span>
+      </span>
+    );
+  }
+
+  return (
+    <a className="button" href={href} target="_blank" rel="noreferrer">
+      {label} <span aria-hidden="true">↗</span>
+    </a>
   );
 }
 
